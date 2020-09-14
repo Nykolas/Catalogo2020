@@ -8,14 +8,15 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import AltaProducto, ModificacionProducto
 from .models import Producto, Rubro
-
+from apps.utils.funciones import PermisosMixin
 # VISTA BASADA EN FUNCIONES
 #def Listar(request):
 #	return render(request,'productos/listar.html')
 
 
 # VISTAS BASADAS EN CLASES
-class Crear(LoginRequiredMixin,CreateView):
+class Crear(LoginRequiredMixin,PermisosMixin, CreateView):
+	rol = 'minorista'
 	model = Producto
 	form_class = AltaProducto
 	template_name = 'productos/crear.html'
