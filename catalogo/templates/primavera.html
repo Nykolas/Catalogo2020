@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PRIMAVERA</title>
+</head>
+<body>
+	<h1>PRIMAVAVERA</h1>
+
+	<input type="text" name="buscado" value="" placeholder="INGRESE QUE QUIERE BUSCAR" id="buscado" style="width: 200px;">
+	<button onclick="buscar();"> BUSCAR</button>
+
+	<div id="resultados">
+		
+	</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+		
+		function buscar(){
+			var  b = $('#buscado').val();
+
+
+			$.ajax({
+				data:{'buscando':b},
+				url : "{% url 'soyajax' %}",
+				type: 'get',
+				success: function(x){
+					var div = $('#resultados');
+					div.empty();
+					if (x.estado == 'mal'){
+						var z = '<strong style="color:red; font-size:3em;"> NO TENEMOS RESULTADOS PARA SU BUSQUEDA: ';
+						z += b +'</strong>';
+						div.append(z);
+					}else{
+						for (i = 0;  i <= x.datos.length; i++){
+							var w = '<p> <b>nombre: </b>'+ x.datos[i].nombre;
+							w += ' <b>descripcion: </b>' + x.datos[i].descripcion;
+							w += ' <b>precio: </b>'+ x.datos[i].precio;
+							w += '</p>';
+							div.append(w);
+						}
+					}
+				}
+			});
+		}
+		
+
+</script>
+
+</body>
+
+
+</html>
